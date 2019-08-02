@@ -1,0 +1,5 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =3
+let g:netrw_dirhist_1='/ssd/zq/ext_frames_job/code'
+let g:netrw_dirhist_2='/ssd/zq/code-collections/libs/coco_process/module'
+let g:netrw_dirhist_3='/ssd/zq/ext_frames_job/code'

@@ -1,0 +1,33 @@
+#!/usr/bin/env python
+import os
+import sys
+import subprocess
+
+hdfs_prefix = '/mnt/bj-hdfs2'
+
+import argparse
+def arg_parse():
+    parser = argparse.ArgumentParser(description='')
+    parser.add_argument('cmd', help='ls mkdir')
+    parser.add_argument('args', nargs='*', help='other args')
+    args = parser.parse_args()
+    return args
+
+def get_hdfs_path(raw_path='.'):
+    return os.path.realpath(raw_path).replace(hdfs_prefix, '')
+
+if __name__ == '__main__':
+    args = arg_parse()
+    cmd_args = ' '.join([get_hdfs_path(i) for i in args.args])
+
+    if args.cmd == 'ls':
+        if len(cmd_args) == 0:
+            cmd_args = get_hdfs_path()
+
+    cmd = 'hdfs dfs -{} {}'.format(args.cmd, cmd_args)
+    out = subprocess.check_output(cmd, shell=True)
+
+    if args.cmd == 'ls':
+        print('\n'.join([i.split()[-1] for i in out.strip().split('\n')[1:]]))
+    else:
+        print(out)
