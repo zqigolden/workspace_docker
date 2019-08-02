@@ -57,3 +57,7 @@ export JAVA_HOME=/usr/java/default
 alias shdfs='sudo JAVA_HOME=/usr/java/default /opt/package/hadoop-2.6.5/bin/hdfs'
 alias vi='vim'
 alias la='ls -la'
+
+#for workspace docker
+PS1='\[\033[0;32m\]\[\033[0m\033[0;32m\]\u\[\033[0;36m\] @ \[\033[0;36m\]\h \w\[\033[0;32m\]$(__git_ps1)\n\[\033[0;32m\]└─\[\033[0m\033[0;32m\] \$\[\033[0m\033[0;32m\] ▶\[\033[0m\] '
+source /usr/share/git-core/contrib/completion/git-prompt.sh
