@@ -1,0 +1,130 @@
+set encoding=utf-8
+
+"vundle configs
+set nocompatible              " required
+filetype off                  " required
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'gmarik/Vundle.vim'
+Plugin 'vim-scripts/indentpython.vim'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'scrooloose/nerdtree'
+Plugin 'junegunn/seoul256.vim'
+Plugin 'scrooloose/syntastic'
+Plugin 'majutsushi/tagbar'
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+"python configs
+syntax enable
+syntax on
+filetype plugin indent on
+filetype indent on
+set number
+set autoread
+set smarttab
+set autoindent
+set incsearch
+set hlsearch
+set ignorecase
+"set mouse=v
+set mouse=a
+set ruler
+set laststatus=2
+set nowrap
+
+" 普通文件Tab设置
+set expandtab
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+
+" 特殊文件Tab设置
+autocmd FileType ruby setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=79
+autocmd FileType php setlocal tabstop=4 shiftwidth=4 softtabstop=4 textwidth=79
+autocmd FileType coffee,javascript setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=79
+autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4 textwidth=79
+autocmd FileType html,htmldjango,xhtml,haml,jade setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=0
+autocmd FileType sass,scss,css setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=79
+
+" 文件类型设置
+autocmd BufNewFile,BufReadPost *.md set filetype=markdown       " Markdown设置
+autocmd FileType markdown setlocal wrap                         " Markdown折行
+
+" 设置Leader键
+let mapleader=';'
+
+" 折叠设置
+set foldmethod=syntax   " 根据语法进行缩进
+set nofoldenable        " 启动 vim 时关闭折叠代码
+
+"highlight Comment ctermfg=green guifg=green
+"hi String ctermfg = green
+"hi Type ctermfg   = yellow
+"hi Number ctermfg = blue
+
+"Leader r for running
+map <Leader>r :call CompileRunGcc()<CR>
+func! CompileRunGcc()
+    exec "w" 
+    if &filetype == 'c' 
+        exec '!g++ % -o %<'
+        exec '!time ./%<'
+    elseif &filetype == 'cpp'
+        exec '!g++ % -o %<'
+        exec '!time ./%<'
+    elseif &filetype == 'python'
+        exec '!time python %'
+    elseif &filetype == 'sh'
+        :!time bash %
+    endif
+endfunc 
+
+"change complete method
+set completeopt=menu,menuone
+let g:ycm_add_preview_to_completeopt = 0
+
+set pastetoggle=<F11>
+
+map <Leader>n :NERDTreeToggle<CR>
+
+colo seoul256
+
+let g:syntastic_error_symbol='>>'
+let g:syntastic_warning_symbol='>'
+let g:syntastic_check_on_open=1
+let g:syntastic_check_on_wq=0
+let g:syntastic_enable_highlighting=1
+if executable('pylint')
+    let g:syntastic_python_checkers=['pylint'] " 使用pyflakes,速度比pylint快
+endif
+let g:syntastic_javascript_checkers = ['jsl', 'jshint']
+let g:syntastic_html_checkers=['tidy', 'jshint']
+" 修改高亮的背景色, 适应主题
+"highlight SyntasticErrorSign guifg=white guibg=black
+
+" to see error location list
+let g:syntastic_always_populate_loc_list = 0
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_loc_list_height = 5
+let g:syntastic_quiet_messages = {
+        \ "!level":  "errors",
+        \ "type":    "style",
+        \ "regex":   '.*',
+        \ "file:p":  '.*' }
+
+function! ToggleErrors()
+    let old_last_winnr = winnr('$')
+    lclose
+    if old_last_winnr == winnr('$')
+        " Nothing was closed, open syntastic error location panel
+        Errors
+    endif
+endfunction
+nnoremap <Leader>e :call ToggleErrors()<cr>
+" nnoremap <Leader>sn :lnext<cr>
+" nnoremap <Leader>sp :lprevious<cr>
+
+"tagbar
+nmap <leader>t :TagbarToggle<CR>
+let g:tagbar_autofocus = 1      " 自动高亮代码所在Tag区域
