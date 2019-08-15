@@ -6,4 +6,4 @@ docker run --rm -it \
     -v /data1:/data1 \
     -v /data2:/data2 \
     -v /opt/package/hadoop-2.6.5/etc/:/opt/package/hadoop-2.6.5/etc/ \
-    registry.aibee.cn/aibee/qzhu/workspace-docker:0.0.8 $@
+    registry.aibee.cn/aibee/qzhu/workspace-docker:0.0.9 $@

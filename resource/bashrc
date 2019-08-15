@@ -60,3 +60,6 @@ alias la='ls -la'
 function iterm2_print_user_vars() {
     ~/.iterm2/it2git
 }
+
+source ~/.git-prompt.sh
+
