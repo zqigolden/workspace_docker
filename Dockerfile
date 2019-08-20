@@ -16,7 +16,8 @@ ctags
 RUN pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --upgrade pip && pip install -i https://pypi.tuna.tsinghua.edu.cn/simple \
 opencv-python==4.1.0.25 \
 pyyaml \
-snakebite
+snakebite \
+j2cli[yaml]
 
 RUN yum install -y zsh
 RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh
