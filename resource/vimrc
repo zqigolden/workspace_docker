@@ -128,6 +128,9 @@ nnoremap <Leader>e :call ToggleErrors()<cr>
 nmap <leader>t :TagbarToggle<CR>
 let g:tagbar_autofocus = 1      " 自动高亮代码所在Tag区域
 
+"set syntax for dag file 
+au BufNewFile,BufRead *.dag set filetype=python
+
 "airline
 "let g:airline#extensions#tabline#enabled = 1
 "let g:airline#extensions#tabline#buffer_nr_show = 1
