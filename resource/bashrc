@@ -38,6 +38,7 @@ alias tl='tmux list-sessions'
 
 alias sl='ls'
 alias g='git'
+alias l='ls -lah'
 
 alias gettj='gettj() { scp -r lthpc@192.168.9.6:$1 .;}; gettj'
 alias gettj2='gettj2() { scp -r lthpc@192.168.9.7:$1 .;}; gettj2'
@@ -57,9 +58,9 @@ alias shdfs='sudo JAVA_HOME=/usr/java/default /opt/package/hadoop-2.6.5/bin/hdfs
 alias vi='vim'
 alias la='ls -la'
 
-function iterm2_print_user_vars() {
-    ~/.iterm2/it2git
-}
+#ssh
+/usr/sbin/sshd
 
-source ~/.git-prompt.sh
-
+#function iterm2_print_user_vars() {
+#    ~/.iterm2/it2git
+#}
