@@ -5,5 +5,6 @@ docker run --rm -it \
     -v /mnt:/mnt \
     -v /data1:/data1 \
     -v /data2:/data2 \
+    -v ~/.bash_history:/root/.bash_history \
     -v /opt/package/hadoop-2.6.5/etc/:/opt/package/hadoop-2.6.5/etc/ \
-    registry.aibee.cn/aibee/qzhu/workspace-docker:0.0.12 $@
+    registry.aibee.cn/aibee/qzhu/workspace-docker:0.0.16 $@
