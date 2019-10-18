@@ -43,12 +43,12 @@ set softtabstop=4
 set shiftwidth=4
 
 " 特殊文件Tab设置
-autocmd FileType ruby setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=79
-autocmd FileType php setlocal tabstop=4 shiftwidth=4 softtabstop=4 textwidth=79
-autocmd FileType coffee,javascript setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=79
-autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4 textwidth=79
+autocmd FileType ruby setlocal tabstop=2 shiftwidth=2 softtabstop=2 
+autocmd FileType php setlocal tabstop=4 shiftwidth=4 softtabstop=4 
+autocmd FileType coffee,javascript setlocal tabstop=2 shiftwidth=2 softtabstop=2 
+autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4 
 autocmd FileType html,htmldjango,xhtml,haml,jade setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=0
-autocmd FileType sass,scss,css,yaml setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=79
+autocmd FileType sass,scss,css,yaml setlocal tabstop=2 shiftwidth=2 softtabstop=2 
 
 " 文件类型设置
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown       " Markdown设置
