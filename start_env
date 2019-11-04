@@ -7,4 +7,4 @@ docker run --rm -it \
     -v /data2:/data2 \
     -v ~/.bash_history:/root/.bash_history \
     -v /opt/package/hadoop-2.6.5/etc/:/opt/package/hadoop-2.6.5/etc/ \
-    registry.aibee.cn/aibee/qzhu/workspace-docker:0.0.19 $@
+    registry.aibee.cn/aibee/qzhu/workspace-docker:0.0.20 $@
