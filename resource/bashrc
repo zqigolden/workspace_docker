@@ -20,6 +20,7 @@ export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 export TMOUT=0
 export PYTHONPATH=$PYTHONPATH:/ssd/zq/code-collections/libs:/home/aibeeadmin/caffe2_deploy/caffe2/build/:/home/aibeeadmin/zq/faiss/python
 export PATH=$PATH:/opt/package/hadoop-2.6.5/bin
+export PATH="/root/bin:$PATH"
 alias jqc='jqc() { jq ".images[].file_name" $1 | wc -l;}; jqc'
 alias jpgc='jpgc() { find $1 -name '*.jpg' | wc -l;}; jpgc'
 alias cn='cn() { realpath $1 | tee /dev/stderr | it2copy;}; cn'
@@ -57,6 +58,8 @@ export JAVA_HOME=/usr/java/default
 alias shdfs='sudo JAVA_HOME=/usr/java/default /opt/package/hadoop-2.6.5/bin/hdfs'
 alias vi='vim'
 alias la='ls -la'
+
+alias python='python3'
 
 #ssh
 /usr/sbin/sshd
