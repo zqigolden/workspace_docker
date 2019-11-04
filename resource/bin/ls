@@ -1,0 +1,5 @@
+if [[ `pwd` == *"yl"* ]]; then 
+    cowsay `/bin/ls $@`
+else 
+    /bin/ls $@
+fi
