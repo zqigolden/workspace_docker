@@ -5,7 +5,7 @@ RUN rpm -Uvh http://mirror.ghettoforge.org/distributions/gf/gf-release-latest.gf
 
 RUN rpm --import http://li.nux.ro/download/nux/RPM-GPG-KEY-nux.ro && rpm -Uvh http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-1.el7.nux.noarch.rpm
 
-RUN wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+RUN rm -rf /etc/yum.repos.d/*;wget -P /etc/yum.repos.d/ http://mirrors.163.com/.help/CentOS7-Base-163.repo
 
 RUN yum install -y \
 ctags \
@@ -22,7 +22,8 @@ ffmpeg \
 ffmpeg-devel \
 openvpn \
 python36 \
-cowsay
+cowsay \
+expect
 
 RUN python3 -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --upgrade pip && pip install -i https://pypi.tuna.tsinghua.edu.cn/simple \
 j2cli[yaml] \
