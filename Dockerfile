@@ -44,6 +44,7 @@ ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key -N "" -q && \
 ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key -N "" -q
 
 ENV PS1="\[\e[0;32m\]\T\[\e[0;36m\] \w\[\e[0;32m\]\[\e[0m\e[0;32m\]\n > \[\e[0m\]"
+ENV PATH=${PATH}:/root/bin/
 #COPY bin/* /usr/local/bin/
 COPY ./resource/vim /root/.vim
 COPY ./resource/bin/ /root/bin
