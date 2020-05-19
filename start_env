@@ -2,9 +2,6 @@ docker run --rm -it \
     -w `echo $(pwd) | xargs realpath` \
     -v /home:/home \
     -v /ssd:/ssd \
-    -v /mnt:/mnt \
-    -v /data1:/data1 \
-    -v /data2:/data2 \
-    -v ~/.bash_history:/root/.bash_history \
-    -v /opt/package/hadoop-2.6.5/etc/:/opt/package/hadoop-2.6.5/etc/ \
-    registry.aibee.cn/aibee/qzhu/workspace-docker:0.0.23 $@
+    -v ~/key/:/key \
+    -e HDFS_USER=${USER} \
+    registry.aibee.cn/aibee/qzhu/workspace-docker:0.1.0-dev $@

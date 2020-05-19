@@ -1,0 +1,46 @@
+#!/bin/bash
+#set -x
+
+test -f /key/${HDFS_USER}.keytab || (cd /key && create_keytab $HDFS_USER)
+
+hdfscli initkrb5 -k /key/${HDFS_USER}.keytab ${HDFS_USER}
+IDC=${IDC-bj}
+if [[ "$1" == dfs ]]; then
+    shift
+fi
+cmd=$1
+if [[ "$cmd" == -ls || "$cmd" == ls || "$cmd" == l ]]; then
+    cmd=list
+fi
+if [[ "$cmd" == -put || "$cmd" == put || "$cmd" == p || "$cmd" == u ]]; then
+    cmd=upload
+fi
+if [[ "$cmd" == -get || "$cmd" == get || "$cmd" == g || "$cmd" == d ]]; then
+    cmd=download
+
+fi
+shift
+
+dst=''
+if [[ $# -eq 1 && "$cmd" == download ]]; then
+    dst=' .'
+fi
+
+dst=''
+if [[ $# -eq 1 && "$cmd" == upload ]]; then
+    dst=' /bj_dev/user/qzhu/upload_files'
+fi
+
+src=''
+counter=1
+#echo $#
+for i in $@; do
+    i=$( sed -E 's@hdfs://@@g' <<< $i )
+    if [[ ( ( "$cmd" == download && $counter == 1 ) || "$cmd" == list ) && $i != "/bj"* &&  $i != "/sh"* &&  $i != "/gz"* ]];then
+        i=/${IDC}$i
+    fi
+    counter=$((counter + 1))
+    src="$src $i"
+done
+hdfscli $cmd $src $dst
+#echo hdfscli $cmd $src $dst
