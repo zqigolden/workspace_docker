@@ -6,10 +6,13 @@ RUN wget http://mirrors.aibee.cn/tools/apache_hadoop/krb5.conf -O /etc/krb5.conf
  && apt install -y ctags git jq vim ffmpeg expect pylint tree libkrb5-dev krb5-user 
 
 #pip
-RUN python3 -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --upgrade pip && pip install -i https://pypi.tuna.tsinghua.edu.cn/simple \
+RUN python3 -m pip install -i https://mirrors.aliyun.com/pypi/simple --upgrade pip && \
+ pip install -i https://mirrors.aliyun.com/pypi/simple \
  j2cli[yaml] \
  opencv-python \
- pyyaml
+ pyyaml \
+ typer \
+ loguru
 
 #aibee_hdfs
 RUN pip3 install aibee_hdfs modelmanage2 -I -i http://repo.aibee.cn/repository/pypi/simple --trusted-host repo.aibee.cn
@@ -19,7 +22,7 @@ RUN curl -L https://iterm2.com/shell_integration/install_shell_integration_and_u
 
 ENV PATH=/root/bin/:${PATH}
 
-COPY ./resource/vim /root/.vim
+#COPY ./resource/vim /root/.vim
 COPY ./resource/bin/ /root/bin
 COPY ./resource/vimrc /root/.vimrc
 COPY ./resource/bashrc /root/.bashrc

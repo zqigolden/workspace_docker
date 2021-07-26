@@ -32,15 +32,25 @@ if [[ $# -eq 1 && "$cmd" == upload ]]; then
 fi
 
 src=''
+lone_detail=''
 counter=1
 #echo $#
 for i in $@; do
     i=$( sed -E 's@hdfs://@@g' <<< $i )
-    if [[ ( ( "$cmd" == download && $counter == 1 ) || "$cmd" == list ) && $i != "/bj"* &&  $i != "/sh"* &&  $i != "/gz"* ]];then
+    if [[ $cmd == list && $i == -l ]]; then
+        long_detail=true
+        continue
+    fi
+    if [[ ( ( "$cmd" == download && $counter == 1 ) || "$cmd" == list ) && $i != "/bj"* && $i != "/sh"* && $i != "/gz"* && $i != "-"* ]];then
         i=/${IDC}$i
     fi
     counter=$((counter + 1))
     src="$src $i"
 done
-hdfscli $cmd $src $dst
+## For debug
 #echo hdfscli $cmd $src $dst
+result=$(hdfscli $cmd $src $dst)
+if [ ! "$long_detail" ]; then
+    result=$(sed -E 's/([^\t ]*[\t ]+){7}//' <<< $result) 
+fi
+echo "$result"

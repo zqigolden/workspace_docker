@@ -1,136 +1,184 @@
-set encoding=utf-8
+" source ~/.vim/bundles.vim
 
-"vundle configs
-set nocompatible              " required
-filetype off                  " required
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-Plugin 'gmarik/Vundle.vim'
-Plugin 'vim-scripts/indentpython.vim'
-"Plugin 'Valloric/YouCompleteMe'
-Plugin 'scrooloose/nerdtree'
-Plugin 'junegunn/seoul256.vim'
-Plugin 'scrooloose/syntastic'
-Plugin 'majutsushi/tagbar'
-Plugin 'vim-airline/vim-airline'
-call vundle#end()            " required
-filetype plugin indent on    " required
+" encoding dectection
+set fileencodings=utf-8,gb2312,gb18030,gbk,ucs-bom,cp936,latin1
 
-"python configs
-syntax enable
-syntax on
+" enable filetype dectection and ft specific plugin/indent
 filetype plugin indent on
-filetype indent on
-set number
+
+" enable syntax hightlight and completion
+syntax on
+
+" color scheme
+set background=dark
+try
+    color solarized "this use bundle
+catch
+    colorscheme desert
+endtry
+
+" highlight current line
+" au WinLeave * set nocursorline nocursorcolumn
+" au WinEnter * set cursorline cursorcolumn
+" set cursorline cursorcolumn
+
+" editor settings
+" " Set to auto read when a file is changed from the outside
 set autoread
-set smarttab
-set autoindent
-set incsearch
+autocmd FocusGained,BufEnter * checktime
+set backspace=indent,eol,start                                    " More powerful backspacing
+set confirm                                                       " prompt when existing from an unsaved file
+set cursorline
+set history=1000
 set hlsearch
 set ignorecase
-"set mouse=v
-set mouse=a
+set incsearch                                                     "realtime show search result
+set laststatus=2                                                  " use 2 lines for the status bar
+set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
+set matchpairs+=<:>                                               " specially for html
+set matchtime=2                                                   " show matching bracket for 0.2 seconds
+set mouse=a                                                       " use mouse in all modes
+set nocompatible
+set nofoldenable                                                  " disable folding"
+set nowrap                                                        " dont wrap lines
+set number                                                        " show line numbers
+set report=0                                                      " always report number of lines changed                "
 set ruler
-set laststatus=2
-set wrap
-set showbreak=..
-set cursorline
+set scrolloff=5                                                   " 5 lines above/below cursor when scrolling
+set showcmd                                                       " show typed command in status bar
+set showmatch                                                     " show matching bracket (briefly jump)
+set t_Co=256                                                      " Explicitly tell vim that the terminal has 256 colors "
+set title                                                         " show file in titlebar
+set wildmenu
+set lazyredraw                                                  " Don't redraw while executing macros (good performance config)
+set magic
+" set relativenumber
 
-" 普通文件Tab设置
-set expandtab
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
+" Default Indentation
+" set textwidth=79
+set autoindent
+set expandtab       " expand tab to space
+set shiftwidth=4    " indent width
+set smartindent     " indent when
+set smarttab
+set softtabstop=4   " backspace
+set tabstop=4       " tab width
 
-" 特殊文件Tab设置
-autocmd FileType ruby setlocal tabstop=2 shiftwidth=2 softtabstop=2 
-autocmd FileType php setlocal tabstop=4 shiftwidth=4 softtabstop=4 
-autocmd FileType coffee,javascript setlocal tabstop=2 shiftwidth=2 softtabstop=2 
-autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4 
-autocmd FileType html,htmldjango,xhtml,haml,jade setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=0
-autocmd FileType sass,scss,css,yaml setlocal tabstop=2 shiftwidth=2 softtabstop=2 
+autocmd FileType php setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=120
+autocmd FileType ruby setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=120
+autocmd FileType php setlocal tabstop=4 shiftwidth=4 softtabstop=4 textwidth=120
+autocmd FileType coffee,javascript setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=120
+autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4 textwidth=120
+autocmd FileType html,htmldjango,xhtml,haml setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=0
+autocmd FileType sass,scss,css setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=120
 
-" 文件类型设置
-autocmd BufNewFile,BufReadPost *.md set filetype=markdown       " Markdown设置
-autocmd FileType markdown setlocal wrap                         " Markdown折行
+" syntax support
+autocmd Syntax javascript set syntax=jquery   " JQuery syntax support
+" js
+let g:html_indent_inctags = "html,body,head,tbody"
+let g:html_indent_script1 = "inc"
+let g:html_indent_style1 = "inc"
 
-" 设置Leader键
-let mapleader=';'
+"------------------
+" Useful Functions
+"------------------
+" easier navigation between split windows
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-h> <c-w>h
+nnoremap <c-l> <c-w>l
 
-" 折叠设置
-set foldmethod=syntax   " 根据语法进行缩进
-set nofoldenable        " 启动 vim 时关闭折叠代码
+" When editing a file, always jump to the last cursor position
+autocmd BufReadPost *
+      \ if ! exists("g:leave_my_cursor_position_alone") |
+      \     if line("'\"") > 0 && line ("'\"") <= line("$") |
+      \         exe "normal g'\"" |
+      \     endif |
+      \ endif
 
-"highlight Comment ctermfg=green guifg=green
-"hi String ctermfg = green
-"hi Type ctermfg   = yellow
-"hi Number ctermfg = blue
+" w!! to sudo & write a file
+cmap w!! %!sudo tee >/dev/null %
 
-"Leader r for running
-map <Leader>r :call CompileRunGcc()<CR>
-func! CompileRunGcc()
-    exec "w" 
-    if &filetype == 'c' 
-        exec '!g++ % -o %<'
-        exec '!time ./%<'
-    elseif &filetype == 'cpp'
-        exec '!g++ % -o %<'
-        exec '!time ./%<'
-    elseif &filetype == 'python'
-        exec '!time python %'
-    elseif &filetype == 'sh'
-        :!time bash %
+" vimdiff color adjust
+highlight DiffAdd    cterm=BOLD ctermfg=NONE ctermbg=22
+highlight DiffDelete cterm=BOLD ctermfg=NONE ctermbg=52
+highlight DiffChange cterm=BOLD ctermfg=NONE ctermbg=23
+highlight DiffText   cterm=BOLD ctermfg=NONE ctermbg=23
+
+""""""""""""""""""""""""""""""
+" => Visual mode related
+""""""""""""""""""""""""""""""
+" Visual mode pressing * or # searches for the current selection
+" Super useful! From an idea by Michael Naumann
+vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
+vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
+
+"""""""""""""""""""""""""""""""""""""""
+" => Leader key operations
+"""""""""""""""""""""""""""""""""""""""
+
+let mapleader =" "
+
+" example
+nmap <leader>i iHello World<esc>
+" Fast saving
+nmap <leader>w :w!<cr>
+nmap <leader>sw :w!!<cr>
+set pastetoggle=<F11>
+" Switch paste mode
+nmap <Leader>p <F11>
+nmap <Leader>v "+p
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Helper functions
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Returns true if paste mode is enabled
+function! HasPaste()
+    if &paste
+        return 'PASTE MODE  '
     endif
-endfunc 
+    return ''
+endfunction
 
-"change complete method
-set completeopt=menu,menuone
-let g:ycm_add_preview_to_completeopt = 0
+" Don't close window, when deleting a buffer
+command! Bclose call <SID>BufcloseCloseIt()
+function! <SID>BufcloseCloseIt()
+    let l:currentBufNum = bufnr("%")
+    let l:alternateBufNum = bufnr("#")
 
-set pastetoggle=<Leader>p
+    if buflisted(l:alternateBufNum)
+        buffer #
+    else
+        bnext
+    endif
 
-map <Leader>n :NERDTreeToggle<CR>
+    if bufnr("%") == l:currentBufNum
+        new
+    endif
 
-colo seoul256
-
-let g:syntastic_error_symbol='>>'
-let g:syntastic_warning_symbol='>'
-let g:syntastic_check_on_open=1
-let g:syntastic_check_on_wq=0
-let g:syntastic_enable_highlighting=1
-if executable('pylint')
-    let g:syntastic_python_checkers=['pylint'] " 使用pyflakes,速度比pylint快
-endif
-let g:syntastic_javascript_checkers = ['jsl', 'jshint']
-let g:syntastic_html_checkers=['tidy', 'jshint']
-" 修改高亮的背景色, 适应主题
-"highlight SyntasticErrorSign guifg=white guibg=black
-
-" to see error location list
-let g:syntastic_always_populate_loc_list = 0
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_loc_list_height = 5
-let g:syntastic_python_pylint_args = '-E'
-
-function! ToggleErrors()
-    let old_last_winnr = winnr('$')
-    lclose
-    if old_last_winnr == winnr('$')
-        " Nothing was closed, open syntastic error location panel
-        Errors
+    if buflisted(l:currentBufNum)
+        execute("bdelete! ".l:currentBufNum)
     endif
 endfunction
-nnoremap <Leader>e :call ToggleErrors()<cr>
-" nnoremap <Leader>sn :lnext<cr>
-" nnoremap <Leader>sp :lprevious<cr>
 
-"tagbar
-nmap <leader>t :TagbarToggle<CR>
-let g:tagbar_autofocus = 1      " 自动高亮代码所在Tag区域
+function! CmdLine(str)
+    call feedkeys(":" . a:str)
+endfunction
 
-"set syntax for dag file 
-au BufNewFile,BufRead *.dag set filetype=python
+function! VisualSelection(direction, extra_filter) range
+    let l:saved_reg = @"
+    execute "normal! vgvy"
 
-"airline
-"let g:airline#extensions#tabline#enabled = 1
-"let g:airline#extensions#tabline#buffer_nr_show = 1
+    let l:pattern = escape(@", "\\/.*'$^~[]")
+    let l:pattern = substitute(l:pattern, "\n$", "", "")
+
+    if a:direction == 'gv'
+        call CmdLine("Ack '" . l:pattern . "' " )
+    elseif a:direction == 'replace'
+        call CmdLine("%s" . '/'. l:pattern . '/')
+    endif
+
+    let @/ = l:pattern
+    let @" = l:saved_reg
+endfunction
